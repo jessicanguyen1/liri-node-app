@@ -3,6 +3,7 @@
 // var inquirer = require("inquirer");
 require("dotenv").config();
 var axios = require("axios");
+var moment = require("moment");
 
 // require fs for reading files
 var fs = require("fs");
@@ -54,8 +55,21 @@ if (process.argv[2] === "spotify-this-song") {
   /* ******************************** BAND IN TOWN SEARCH ********************************** */
   var bandName = process.argv.splice(3).join("+");
   var queryUrlBands = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=" + bands;
-  console.log(queryUrlBands);
-  console.log("Bands in town search");
+  // console.log(queryUrlBands);
+  // console.log("Bands in town search");
+
+  axios.get(queryUrlBands)
+    .then(function (responseBand) {
+
+
+      console.log
+        (`Name of venue: ${responseBand.data[0].venue.name}
+Venue location: ${responseBand.data[0].venue.city}, ${responseBand.data[0].venue.region}
+Date of the Event: ${moment(responseBand.data[0].datetime).format("MM/DD/YYYY")} 
+      `);
+
+
+    }).catch()
 
 } else if (process.argv[2] === "movie-this") {
 
@@ -67,8 +81,8 @@ if (process.argv[2] === "spotify-this-song") {
     movieName = "Mr. Nobody";
     console.log
       (`* If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/
-* It's on Netflix!
-    `)
+      * It's on Netflix!
+        `)
   } else {
     movieName = process.argv.splice(3).join("+");
 
@@ -80,16 +94,16 @@ if (process.argv[2] === "spotify-this-song") {
   axios.get(queryUrl)
     .then(function (response) {
       console.log
-        (`  
-  * Title of the movie: ${response.data.Title}
-  * Year the movie came out: ${response.data.Year}
-  * IMDB Rating of the movie: ${response.data.imdbRating}
-  * Rotten Tomatoes Rating of the movie: ${response.data.Ratings[1].Value}
-  * Country where the movie was produced: ${response.data.Country}
-  * Language of the movie: ${response.data.Language}
-  * Plot of the movie: ${response.data.Plot}
-  * Actors in the movie: ${response.data.Actors}
-  `)
+        (`
+      * Title of the movie: ${ response.data.Title}
+      * Year the movie came out: ${ response.data.Year}
+      * IMDB Rating of the movie: ${ response.data.imdbRating}
+      * Rotten Tomatoes Rating of the movie: ${ response.data.Ratings[1].Value}
+      * Country where the movie was produced: ${ response.data.Country}
+      * Language of the movie: ${ response.data.Language}
+      * Plot of the movie: ${ response.data.Plot}
+      * Actors in the movie: ${ response.data.Actors}
+        `)
     })
 
     .catch(function (err) {
