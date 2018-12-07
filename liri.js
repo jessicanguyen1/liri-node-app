@@ -18,11 +18,9 @@ var bands = keys.bands;
 
 var arguments;
 
-//////////// SPOTIFY //////////// 
 if (process.argv[2] === "spotify-this-song") {
-  // run spotify
-  // var trackSearch = process.argv[3];
-  // console.log(trackSearch);
+
+  /* *********************************** SPOTIFY  SEARCH ************************************* */
 
   // Splicing out index 0-2 out of the array and joining a + to every argument after index 4
   if (process.argv.length > 4) {
@@ -52,14 +50,29 @@ if (process.argv[2] === "spotify-this-song") {
   })
 
 } else if (process.argv[2] === "concert-this") {
-  // run bands in town
+
+  /* ******************************** BAND IN TOWN SEARCH ********************************** */
+  var bandName = process.argv.splice(3).join("+");
+  var queryUrlBands = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=" + bands;
+  console.log(queryUrlBands);
   console.log("Bands in town search");
 
 } else if (process.argv[2] === "movie-this") {
-  // run omdb
-  console.log("OMDB search");
 
-  var movieName = process.argv.splice(3).join("+");
+  /* ************************************ OMDB SEARCH ************************************** */
+  console.log("OMDB search");
+  var movieName;
+
+  if (process.argv.length <= 3) {
+    movieName = "Mr. Nobody";
+    console.log
+      (`* If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/
+* It's on Netflix!
+    `)
+  } else {
+    movieName = process.argv.splice(3).join("+");
+
+  };
 
   var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=" + omdb;
   console.log(queryUrl);
@@ -68,20 +81,24 @@ if (process.argv[2] === "spotify-this-song") {
     .then(function (response) {
       console.log
         (`  
-    * Title of the movie: ${response.data.Title}
-    * Year the movie came out: ${response.data.Year}
-    * IMDB Rating of the movie: ${response.data.imdbRating}
-    * Rotten Tomatoes Rating of the movie: ${response.data.Ratings[1].Value}
-    * Country where the movie was produced: ${response.data.Country}
-    * Language of the movie: ${response.data.Language}
-    * Plot of the movie: ${response.data.Plot}
-    * Actors in the movie: ${response.data.Actors}
-    `)
+  * Title of the movie: ${response.data.Title}
+  * Year the movie came out: ${response.data.Year}
+  * IMDB Rating of the movie: ${response.data.imdbRating}
+  * Rotten Tomatoes Rating of the movie: ${response.data.Ratings[1].Value}
+  * Country where the movie was produced: ${response.data.Country}
+  * Language of the movie: ${response.data.Language}
+  * Plot of the movie: ${response.data.Plot}
+  * Actors in the movie: ${response.data.Actors}
+  `)
     })
+
     .catch(function (err) {
       console.log(err);
-    })
+    });
+
 };
+
+
 
 
 
