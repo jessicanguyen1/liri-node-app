@@ -21,7 +21,13 @@ var arguments;
 
 if (process.argv[2] === "spotify-this-song") {
 
+
   /* *********************************** SPOTIFY  SEARCH ************************************* */
+
+  // Default to Ace of Base "The Sign" if no search is added
+  if (process.argv.length <= 3) {
+    arguments = "the sign ace of base";
+  }
 
   // Splicing out index 0-2 out of the array and joining a + to every argument after index 4
   if (process.argv.length > 4) {
@@ -81,7 +87,7 @@ Date of the Event: ${moment(responseBand.data[0].datetime).format("MM/DD/YYYY")}
     movieName = "Mr. Nobody";
     console.log
       (`* If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/
-      * It's on Netflix!
+* It's on Netflix!
         `)
   } else {
     movieName = process.argv.splice(3).join("+");
@@ -110,7 +116,24 @@ Date of the Event: ${moment(responseBand.data[0].datetime).format("MM/DD/YYYY")}
       console.log(err);
     });
 
-};
+}
+// else if (process.argv[2] === "do-what-it-says") {
+
+//   fs.readFile("random.txt", "utf8", function (err, random) {
+
+//     if (err) {
+//       return console.log(err);
+//     }
+
+//     var dataArr = random.split(",");
+
+//     if (dataArr[0] === "spotify-this-song") {
+//       var songcheck = dataArr[1].trim().slice(1, -1);
+//       // spotSong(songcheck);
+//     };
+//   }
+
+
 
 
 
